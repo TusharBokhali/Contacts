@@ -1,36 +1,70 @@
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-
+import { useNavigation } from '@react-navigation/native';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import Animated, { FadeIn, FadeInLeft, FadeInRight } from 'react-native-reanimated';
 export default function LogIn() {
+  const [email,setEmail] = useState('');
+  const [password,setPassword] = useState('');
+
+  const navigation = useNavigation();
+  const Log = () =>{
+    try {
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
   return (
     <SafeAreaView style={styles.container}>
-    <View>
+      <Animated.View entering={FadeInLeft.delay(200).duration(600)}>
+      <TouchableOpacity onPress={()=>navigation.navigate('Welcome')}>
+        <Ionicons name="chevron-back" size={24} color="black" />
+      </TouchableOpacity>
+      </Animated.View>
+    <Animated.View entering={FadeInRight.delay(400).duration(800)}>
       <Image source={require('@/assets/images/Phone Logo.png')} style={{width:200,height:200,margin:'auto',}}/>
-      <View>
+      <Animated.View entering={FadeIn.delay(200).duration(500)}>
             <Text style={{fontWeight:'600',fontSize:18,marginBottom:20,}}>Login to your Account</Text>
             <TextInput 
             placeholder='Email'
-            value=''
-            onChangeText={()=>{}}
+            value={email}
+            onChangeText={setEmail}
             style={styles.Input}
             />
 
             <TextInput 
             placeholder='Password'
-            value=''
-            onChangeText={()=>{}}
+            secureTextEntry
+            value={password}
+            onChangeText={setPassword}
             style={styles.Input}
             />
-      </View>
-      <TouchableOpacity style={styles.Btn}>
+      </Animated.View>
+      <TouchableOpacity style={styles.Btn} onPress={()=>Log()}>
         <Text style={{color:'white',textAlign:'center',fontWeight:'600',}}>Sing in</Text>
       </TouchableOpacity>
-      <Text style={{marginTop:25,textAlign:'center',fontWeight:'600',}}>- Or Sing in with -</Text>
+      <Text style={{marginTop:30,textAlign:'center',fontWeight:'600',}}>- Or Sing in with -</Text>
       <View style={styles.Social}>
+        <TouchableOpacity>
             <Image source={require('@/assets/images/Google.png')} style={{width: 50,height:50,}}/>
+        </TouchableOpacity>
+        <TouchableOpacity>
+            <Image source={require('@/assets/images/Facebook.png')} style={{width: 50,height:50,}}/>
+        </TouchableOpacity>
+        <TouchableOpacity>
+            <Image source={require('@/assets/images/Twitter.png')} style={{width: 50,height:50,}}/>
+        </TouchableOpacity>
       </View>
-    </View>
+      <View style={{flexDirection:'row',marginTop:30,alignItems:'center',padding:15,justifyContent:'center',}}>
+        <Text>Dont't have an account?</Text>
+        <TouchableOpacity style={{marginHorizontal:5,}} onPress={()=>navigation.navigate('SingIn')}>
+          <Text style={{fontWeight:'600',}}>Sing up</Text>
+        </TouchableOpacity>
+      </View>
+    </Animated.View>
     </SafeAreaView>
   )
 }
@@ -51,6 +85,9 @@ const styles = StyleSheet.create({
         marginVertical:10,
     },
     Social:{
-
+      flexDirection:'row',
+      justifyContent:'space-around',
+      paddingHorizontal:20,
+      marginTop:40,
     }
 })
