@@ -1,21 +1,22 @@
 import { View, Text, Dimensions } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Home from './Home';
 import HighLight from '@/components/HighLight';
 import Organise from '@/components/Organise';
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6'; 
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Octicons from '@expo/vector-icons/Octicons';
 import { useLinkBuilder, useTheme } from '@react-navigation/native';
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { PlatformPressable } from '@react-navigation/elements';
 
-function MyTabBar({ state, descriptors, navigation}:any) {
+function MyTabBar({ state, descriptors, navigation }: any) {
   const { colors } = useTheme();
   const { buildHref } = useLinkBuilder();
   const tabPositionX = useSharedValue(0);
-
   const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [{ translateX: tabPositionX.value }],
@@ -24,7 +25,7 @@ function MyTabBar({ state, descriptors, navigation}:any) {
 
   return (
     <View style={{ flexDirection: 'row' }}>
-      {state.routes.map((route:any, index :any) => {
+      {state.routes.map((route: any, index: any) => {
         const { options } = descriptors[route.key];
         const label =
           options.tabBarLabel !== undefined
@@ -78,34 +79,39 @@ export default function TabBar() {
   const Tab = createBottomTabNavigator();
   return (
     <Tab.Navigator screenOptions={{
-      headerShown:false,
-      tabBarStyle:{
-        position:'absolute',
-        height:80,
-        paddingTop:15,
-        },
-        
-        }}
-        >
-      <Tab.Screen name="Contacts" component={Home} 
-      options={{tabBarIcon:({color,size})=>(
-        <FontAwesome6 name="user" size={size} color={color} />
-      )}}
-      />
-      <Tab.Screen name="HighLight" component={HighLight} 
-      options={{tabBarIcon:({color,size})=>(
-        <MaterialCommunityIcons name="bookmark-plus" size={size} color={color} />
-      ),
-      title:'Highlights'
+      headerShown: false,
+      tabBarStyle: {
+        position: 'absolute',
+        height: 80,
+        paddingTop: 15,
+      },
+
     }}
+      // tabBar={(props) => <MyTabBar {...props} />}
+    >
+
+      <Tab.Screen name="Contacts" component={Home}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <FontAwesome6 name="user" size={size} color={color} />
+          )
+        }}
+      />
+      <Tab.Screen name="HighLight" component={HighLight}
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons name="bookmark-plus" size={size} color={color} />
+          ),
+          title: 'Highlights'
+        }}
       />
       <Tab.Screen name="Organise" component={Organise} options={{
-        tabBarIcon:({color,size})=>(
+        tabBarIcon: ({ color, size }) => (
           <Octicons name="organization" size={size} color={color} />
         ),
-        
-        
-      }}/>
+
+
+      }} />
     </Tab.Navigator>
   )
 }

@@ -1,9 +1,11 @@
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useNavigation } from '@react-navigation/native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Animated, { FadeIn, FadeInLeft, FadeInRight } from 'react-native-reanimated';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function LogIn() {
   const [email,setEmail] = useState('');
   const [password,setPassword] = useState('');
@@ -11,7 +13,18 @@ export default function LogIn() {
   const navigation = useNavigation();
   const Log = () =>{
     try {
-      
+      axios.post('https://interviewhub-3ro7.onrender.com/admin/login',{
+         "email" : email,
+         "password" : password
+      }).then(async(res)=>{
+        if(res.data){
+          Alert.alert('Successfully Login')
+          await AsyncStorage.setItem('User',JSON.stringify(res.data))
+          navigation.navigate('TabBar')
+        }
+      }).catch((e)=>{
+        Alert.alert('Please Create The Account!')
+      })
     } catch (error) {
       console.log(error);
       

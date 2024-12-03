@@ -20,21 +20,16 @@ const create = () =>{
       if(password!==""){
         if(username!==""){
           try {
-            axios.post('https://generateapi.onrender.com/api/singup',{
+            axios.post('https://interviewhub-3ro7.onrender.com/admin/signup',{
               "username": username,
               "email": email,
               "password": password
-            },{
-              'headers':{
-                'Authorization':'WYC8ImSa6cPFj6HD'
-              }
             }).then((res)=>{
               if(res.data){
               Alert.alert('Account Successfully Create!');
               setUserName('')
               setEmail('')
               setPassword('');
-              
               navigation.navigate('LogIn');
             }
           }).catch((e)=>{
