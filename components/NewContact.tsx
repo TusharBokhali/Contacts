@@ -1,25 +1,63 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Feather from '@expo/vector-icons/Feather';
 import { Entypo, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
 export default function NewContact() {
     const [name, setName] = useState('')
     const [surname, setSurname] = useState('')
     const [company, setCompany] = useState('')
     const [number, setNumber] = useState('91+ ')
+    const navigation = useNavigation();
+
+    const ContactSave = () => {
+        console.log("num",surname);
+        console.log("num",name);
+        console.log("num",number);
+        if(name && number){
+        try {
+            axios.post('https://generateapi.onrender.com/api/Contact',{
+                    "Name": name,
+                    "UserName": surname,
+                    "Number": number
+            },{
+                'headers':{
+                    'Authorization':"s98qiTaKGOSaOpzM"
+                }
+            }).then((res)=>{
+                if(res){
+                    setName('')
+                    setSurname('')
+                    navigation.goBack();
+                }
+            }).catch((error)=>{
+                    console.log(error);
+                })
+            } catch (error) {
+                console.log(error);
+                
+            }
+            
+        }else{
+            Alert.alert('Enter Name and Number Require!')
+        }
+    }
     return (
         <SafeAreaView style={styles.container}>
             <View style={{ flexDirection: 'row', width: '99%', justifyContent: 'space-between', alignItems: 'center', padding: 15 }}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 20 }}>
-                    <Ionicons name="close-sharp" size={24} color="black" />
+                    <TouchableOpacity onPress={()=>navigation.goBack()}>
+                        <Ionicons name="close-sharp" size={24} color="black" />
+                    </TouchableOpacity>
                     <Text style={{ fontWeight: '500', fontSize: 20 }}>Create contact</Text>
                 </View>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 15 }}>
 
-                    <TouchableOpacity style={styles.BTN}>
+                    <TouchableOpacity style={styles.BTN} onPress={()=>ContactSave()}>
                         <Text style={{ color: 'white', fontWeight: '600' }}>Save</Text>
                     </TouchableOpacity>
                     <TouchableOpacity>
@@ -32,12 +70,12 @@ export default function NewContact() {
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, borderWidth: 0.5, borderRadius: 20, padding: 2 }}>
                     <Image source={require('@/assets/images/Google.png')} style={{ width: 25, height: 25 }} />
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 15 }}>
-                        <Text style={{ color: 'black' }}>reactNativeDevelopment@gmail.com</Text>
+                        <Text style={{ color: 'black' }}>ReactNative@gmail.com</Text>
                         <Entypo name="chevron-small-down" size={22} color="black" style={{ marginTop: 2 }} />
                     </View>
                 </View>
             </View>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
 
                 <TouchableOpacity style={styles.ImageLogo}>
                     <Image source={require('@/assets/images/Add Image.png')} style={{ width: 70, height: 70, }} />
@@ -81,7 +119,7 @@ export default function NewContact() {
 
                     <TouchableOpacity style={styles.MoreBTN}>
                     <MaterialCommunityIcons name="cake-variant-outline" size={24} color="black" />
-                        <Text>Add birthaday</Text>
+                        <Text>Add birthday</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.MoreBTN}>
@@ -160,8 +198,8 @@ const styles = StyleSheet.create({
         paddingHorizontal:15,
         paddingVertical:5,
         borderRadius:20,
-        borderWidth:1,
-        borderColor:'#E7E5AC',
-        
+        borderWidth:0.5,
+        borderColor:'black',
+        width:100
     }
 })

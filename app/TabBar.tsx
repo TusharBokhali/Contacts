@@ -25,7 +25,7 @@ export default function TabBar() {
           position: 'absolute',
           height: 80,
           paddingTop: 15,
-          backgroundColor: '#CAB46C',
+          backgroundColor: '#F6EED7',
         },
 
       }}
@@ -60,7 +60,7 @@ export default function TabBar() {
         <Tab.Screen name="HighLight" component={HighLight}
           options={{
             tabBarIcon: ({ color, size, focused }) => (
-              <MaterialCommunityIcons name="bookmark-plus" size={22} color={focused ? 'black' : 'gray'} style={{ fontWeight: focused ? '600' : '500' }} />
+              <MaterialCommunityIcons name="bookmark-plus-outline" size={24} color="black" />
             ),
             tabBarLabel: ({ focused }) => (
               <Text style={{
@@ -72,7 +72,7 @@ export default function TabBar() {
                 Highlight
               </Text>
             ),
-          
+            
           }}
           listeners={({ navigation, route }) => ({
             tabPress: e => {
