@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 import { createStackNavigator } from '@react-navigation/stack';
 import Welcome from './Welcome';
@@ -10,31 +10,20 @@ import Home from './TabBar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import TabBar from './TabBar';
+import Loader from '@/components/Loader';
+import NewContact from '@/components/NewContact';
 export default function RootLayout() {
-
-  const navigation = useNavigation();
-  useEffect(() => {
-    const GetData = async () => {
-      const data = await AsyncStorage.getItem('User');
-      const user = JSON.parse(data)
-      if (user) {
-        navigation.navigate('Home')
-      }
-    }
-    GetData();
-  }, [])
-
   const Stack = createStackNavigator();
   return (
     <>
-      <StatusBar style='auto' />
-      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Welcome'>
+        <StatusBar style='auto' />
+        <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='NewContact'>
         <Stack.Screen name='Welcome' component={Welcome} />
         <Stack.Screen name='SingIn' component={SingIn} />
         <Stack.Screen name='LogIn' component={LogIn} />
         <Stack.Screen name='Home' component={Home} />
         <Stack.Screen name='TabBar' component={TabBar} />
-        
+        <Stack.Screen name='NewContact' component={NewContact} />
       </Stack.Navigator>
     </>
 

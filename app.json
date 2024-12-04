@@ -8,6 +8,16 @@
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "plugins": ["react-native-bottom-tabs",
+    [
+              "expo-build-properties",
+              {
+                "ios": {
+                  "useFrameworks": "static"
+                }
+              }
+            ]
+      ],
     "ios": {
       "supportsTablet": true
     },
