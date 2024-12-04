@@ -17,7 +17,7 @@ export default function RootLayout() {
   return (
     <>
         <StatusBar style='auto' />
-        <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='NewContact'>
+        <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Home'>
         <Stack.Screen name='Welcome' component={Welcome} />
         <Stack.Screen name='SingIn' component={SingIn} />
         <Stack.Screen name='LogIn' component={LogIn} />

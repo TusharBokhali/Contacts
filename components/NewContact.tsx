@@ -1,11 +1,15 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native'
+import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Feather from '@expo/vector-icons/Feather';
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
 
 export default function NewContact() {
+    const [name, setName] = useState('')
+    const [surname, setSurname] = useState('')
+    const [company, setCompany] = useState('')
+    const [number, setNumber] = useState('91+ ')
     return (
         <SafeAreaView style={styles.container}>
             <View style={{ flexDirection: 'row', width: '99%', justifyContent: 'space-between', alignItems: 'center', padding: 15 }}>
@@ -33,31 +37,75 @@ export default function NewContact() {
                     </View>
                 </View>
             </View>
-            <View style={styles.ImageLogo}>
-                <Image source={require('@/assets/images/Add Image.png')} style={{ width: 70, height: 70, }} />
-            </View>
-            <Text style={{ textAlign: 'center', marginTop: 10, color: '#af8a44' }}>Add picture</Text>
-            <View style={styles.MainInput}>
-                <TextInput
-                    placeholder='First name'
-                    style={styles.Input}
-                />
+            <ScrollView>
 
-                <TextInput
-                    placeholder='Surname'
-                    style={styles.Input}
-                />
+                <TouchableOpacity style={styles.ImageLogo}>
+                    <Image source={require('@/assets/images/Add Image.png')} style={{ width: 70, height: 70, }} />
+                </TouchableOpacity>
+                <Text style={{ textAlign: 'center', marginTop: 10, color: '#af8a44' }}>Add picture</Text>
+                <View style={styles.MainInput}>
+                    <TextInput
+                        placeholder='First name'
+                        value={name}
+                        onChangeText={setName}
+                        style={styles.Input}
+                    />
 
-                <TextInput
-                    placeholder='Company'
-                    style={styles.Input}
-                />
+                    <TextInput
+                        placeholder='Surname'
+                        value={surname}
+                        onChangeText={setSurname}
+                        style={styles.Input}
+                    />
 
-                <TextInput
-                    placeholder='IN'
-                    style={styles.Input}
-                />
-            </View>
+                    <TextInput
+                        placeholder='Company'
+                        value={company}
+                        onChangeText={setCompany}
+                        style={styles.Input}
+                    />
+
+                    <TextInput
+                        placeholder='IN'
+                        value={number}
+                        keyboardType='numeric'
+                        textContentType='telephoneNumber'
+                        onChangeText={setNumber}
+                        style={styles.Input}
+                    />
+
+                    <TouchableOpacity style={styles.MoreBTN}>
+                        <MaterialCommunityIcons name="email-outline" size={24} color="black" />
+                        <Text>Add email</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.MoreBTN}>
+                    <MaterialCommunityIcons name="cake-variant-outline" size={24} color="black" />
+                        <Text>Add birthaday</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.MoreBTN}>
+                    <Ionicons name="location-outline" size={24} color="black" />
+                        <Text>Add address</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.MoreBTN}>
+                    <MaterialIcons name="label-outline" size={24} color="black" />
+                        <Text>Add to label</Text>
+                    </TouchableOpacity>
+
+                    <TextInput
+                        placeholder='Notes'
+                        style={[styles.Input,{height:80,}]}
+                    />
+                    <View style={{width:'70%',marginHorizontal:'auto'}}>
+                    <TouchableOpacity style={styles.LastBTN}>
+                        <Text>Add fields</Text>
+                    </TouchableOpacity>
+                    </View>
+                </View>
+
+            </ScrollView>
         </SafeAreaView>
 
     )
@@ -90,11 +138,30 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         paddingLeft: 15,
         fontSize: 18,
-        marginVertical:10
+        marginVertical: 10
     },
     MainInput: {
         width: '100%',
         padding: 15,
         alignItems: 'center'
+    },
+    MoreBTN: {
+        flexDirection: 'row',
+        width: '70%',
+        paddingVertical: 10,
+        backgroundColor: '#E7E5AC',
+        alignItems:'center',
+        gap:10,
+        borderRadius:30,
+        justifyContent:'center',
+        marginVertical:10
+    },
+    LastBTN:{
+        paddingHorizontal:15,
+        paddingVertical:5,
+        borderRadius:20,
+        borderWidth:1,
+        borderColor:'#E7E5AC',
+        
     }
 })

@@ -116,7 +116,7 @@ export default function TabBar() {
         bottom: 30,
         borderRadius: 20,
         zIndex: 1,
-        left: 35,
+        left: 32,
         opacity: 0.5,
         transform: [
           { translateX: offseValue }
