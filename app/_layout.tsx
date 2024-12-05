@@ -12,18 +12,22 @@ import { useNavigation } from '@react-navigation/native';
 import TabBar from './TabBar';
 import Loader from '@/components/Loader';
 import NewContact from '@/components/NewContact';
+import DetailsContacts from './users';
+import DetailsContact from './users/test';
 export default function RootLayout() {
   const Stack = createStackNavigator();
   return (
     <>
-        <StatusBar style='auto' />
-        <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Home'>
+      <StatusBar style='auto' />
+      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Home'>
         <Stack.Screen name='Welcome' component={Welcome} />
         <Stack.Screen name='SingIn' component={SingIn} />
         <Stack.Screen name='LogIn' component={LogIn} />
         <Stack.Screen name='Home' component={Home} />
         <Stack.Screen name='TabBar' component={TabBar} />
         <Stack.Screen name='NewContact' component={NewContact} />
+        <Stack.Screen name='Users' component={DetailsContacts} />
+        <Stack.Screen name='Test' component={DetailsContact} />
       </Stack.Navigator>
     </>
 

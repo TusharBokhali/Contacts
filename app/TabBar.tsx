@@ -29,7 +29,6 @@ export default function TabBar() {
         },
 
       }}
-      // tabBar={(props) => <MyTabBar {...props} />}
       >
 
         <Tab.Screen name="Contacts" component={Home}
@@ -64,15 +63,15 @@ export default function TabBar() {
             ),
             tabBarLabel: ({ focused }) => (
               <Text style={{
-                fontWeight:'700',
+                fontWeight: '700',
                 fontSize: 12,
                 marginTop: 5,
-                color:focused ? 'black' : 'gray'
+                color: focused ? 'black' : 'gray'
               }}>
                 Highlight
               </Text>
             ),
-            
+
           }}
           listeners={({ navigation, route }) => ({
             tabPress: e => {
@@ -87,16 +86,16 @@ export default function TabBar() {
           tabBarIcon: ({ color, size, focused }) => (
             <Octicons name="organization" size={22} color={focused ? 'black' : 'gray'} />
           ),
-           tabBarLabel: ({ focused }) => (
-              <Text style={{
-                fontWeight:'700',
-                fontSize: 12,
-                marginTop: 5,
-                color:focused ? 'black' : 'gray'
-              }}>
-                Organise
-              </Text>
-            ),
+          tabBarLabel: ({ focused }) => (
+            <Text style={{
+              fontWeight: '700',
+              fontSize: 12,
+              marginTop: 5,
+              color: focused ? 'black' : 'gray'
+            }}>
+              Organise
+            </Text>
+          ),
         }}
           listeners={({ navigation, route }) => ({
             tabPress: e => {
@@ -109,7 +108,7 @@ export default function TabBar() {
         />
       </Tab.Navigator>
       <Animated.View style={{
-        width: GetWidth()-5,
+        width: GetWidth() - 5,
         height: 30,
         backgroundColor: '#8198A8',
         position: 'absolute',
@@ -118,8 +117,9 @@ export default function TabBar() {
         zIndex: 1,
         left: 32,
         opacity: 0.5,
+        // transitionDelay: 0,
         transform: [
-          { translateX: offseValue }
+          { translateX: offseValue}
         ]
       }}>
 
