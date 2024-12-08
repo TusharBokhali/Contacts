@@ -13,13 +13,17 @@ import TabBar from './TabBar';
 import Loader from '@/components/Loader';
 import NewContact from '@/components/NewContact';
 import DetailsContacts from './users';
-import DetailsContact from './users/test';
+import DetailsContact from './users/DetailsContact';
+import { MenuProvider } from 'react-native-popup-menu';
+import Call from './Call';
 export default function RootLayout() {
   const Stack = createStackNavigator();
   return (
     <>
+    <MenuProvider>
+
       <StatusBar style='auto' />
-      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Home'>
+      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Welcome'>
         <Stack.Screen name='Welcome' component={Welcome} />
         <Stack.Screen name='SingIn' component={SingIn} />
         <Stack.Screen name='LogIn' component={LogIn} />
@@ -27,8 +31,10 @@ export default function RootLayout() {
         <Stack.Screen name='TabBar' component={TabBar} />
         <Stack.Screen name='NewContact' component={NewContact} />
         <Stack.Screen name='Users' component={DetailsContacts} />
-        <Stack.Screen name='Test' component={DetailsContact} />
+        <Stack.Screen name='DetailsContact' component={DetailsContact} />
+        <Stack.Screen name='Call' component={Call} />
       </Stack.Navigator>
+    </MenuProvider>
     </>
 
   );

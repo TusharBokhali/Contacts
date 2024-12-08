@@ -1,51 +1,88 @@
 import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView, Alert } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Ionicons from '@expo/vector-icons/Ionicons';
 import Feather from '@expo/vector-icons/Feather';
 import { Entypo, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function NewContact() {
+    const route = useRoute();
     const [name, setName] = useState('')
     const [surname, setSurname] = useState('')
     const [company, setCompany] = useState('')
     const [number, setNumber] = useState('91+ ')
+    const [email,setemail] = useState();
     const navigation = useNavigation();
-
+    const isfocused = useIsFocused();
+    useEffect(() => {
+        const GetData = async () => {
+          const data = await AsyncStorage.getItem('User');
+          const user = JSON.parse(data);
+          if (user) {
+            setemail(user.data.email)
+          }
+        }
+        GetData();
+  if(route.params.data){
+    setName(route.params.data.Name)
+    setSurname(route.params.data.UserName)
+    setNumber(route.params.data.Number)
+  }
+      }, [isfocused])
     const ContactSave = () => {
-        console.log("num",surname);
-        console.log("num",name);
-        console.log("num",number);
-        if(name && number){
-        try {
-            axios.post('https://generateapi.onrender.com/api/Contact',{
+        if(route.params.data){
+            try {
+                axios.patch(`https://generateapi.onrender.com/api/Contact/${route.params.data._id}`,{
+                        "Name": name,
+                        "UserName": surname,
+                        "Number": number
+                },{
+                    'headers':{
+                        'Authorization':'s98qiTaKGOSaOpzM'
+                    }
+                }).then((res)=>{
+                    if(res.data){
+                        Alert.alert('Update!')
+                        navigation.navigate('Home');
+                    }
+                }).catch((e)=>{
+                    console.log(e);
+                })
+            } catch (error) {
+                console.log(error);   
+            }
+        }else{
+            if(name && number){
+                try {
+                    axios.post('https://generateapi.onrender.com/api/Contact',{
                     "Name": name,
                     "UserName": surname,
                     "Number": number
-            },{
-                'headers':{
-                    'Authorization':"s98qiTaKGOSaOpzM"
-                }
-            }).then((res)=>{
-                if(res){
-                    setName('')
-                    setSurname('')
-                    navigation.goBack();
-                }
-            }).catch((error)=>{
+                },{
+                    'headers':{
+                        'Authorization':"s98qiTaKGOSaOpzM"
+                    }
+                }).then((res)=>{
+                    if(res){
+                        setName('')
+                        setSurname('')
+                        navigation.goBack();
+                    }
+                }).catch((error)=>{
                     console.log(error);
                 })
             } catch (error) {
                 console.log(error);
-                
             }
-            
         }else{
             Alert.alert('Enter Name and Number Require!')
         }
     }
+    }
+    
     return (
         <SafeAreaView style={styles.container}>
             <View style={{ flexDirection: 'row', width: '99%', justifyContent: 'space-between', alignItems: 'center', padding: 15 }}>
@@ -70,7 +107,7 @@ export default function NewContact() {
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10, borderWidth: 0.5, borderRadius: 20, padding: 2 }}>
                     <Image source={require('@/assets/images/Google.png')} style={{ width: 25, height: 25 }} />
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 15 }}>
-                        <Text style={{ color: 'black' }}>ReactNative@gmail.com</Text>
+                        <Text style={{ color: 'black' }}>{email}</Text>
                         <Entypo name="chevron-small-down" size={22} color="black" style={{ marginTop: 2 }} />
                     </View>
                 </View>
